@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const productsStore = defineStore( id, 'products', options, {
+export const productsStore = defineStore('products', {
   state: () => ({
     products: []
   }),
@@ -12,9 +12,6 @@ export const productsStore = defineStore( id, 'products', options, {
         .then(json => {
           this.products = json.products;
         })
-            
-
     }
   }
-
 })
