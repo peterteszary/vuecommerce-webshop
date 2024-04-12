@@ -8,7 +8,8 @@
           <div class="card-body">
             <h5 class="card-title">{{ product.name }}</h5>
             <p class="card-text">Price: {{ product.price }}</p>
-            <button @click="showDetails(product)" class="btn btn-primary">Részletek</button>
+            <button @click="showDetails(product)" class="btn btn-primary mr-2">Részletek</button>
+            <button @click="addToCart(product)" class="btn btn-success">Kosárba</button>
           </div>
         </div>
       </div>
@@ -18,7 +19,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { fetchProducts, addToCart } from '@/services/productsService';
 import Modal from '@/components/Modal.vue';
 
 export default {
@@ -34,24 +35,32 @@ export default {
     };
   },
   mounted() {
-    this.fetchProducts();
+    fetchProducts()
+      .then(response => {
+        this.products = response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching products:', error);
+      });
   },
   methods: {
-    fetchProducts() {
-      axios.get('http://localhost:3000/products')
-        .then(response => {
-          this.products = response.data;
-        })
-        .catch(error => {
-          console.error('Error fetching products:', error);
-        });
-    },
     showDetails(product) {
       this.selectedProduct = product;
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
+    },
+    addToCart(product) {
+      addToCart(product)
+        .then(() => {
+          console.log('Product added to cart:', product);
+          
+        })
+        .catch(error => {
+          console.error('Error adding product to cart:', error);
+          
+        });
     }
   }
 };
