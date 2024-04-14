@@ -23,6 +23,24 @@
       "name": "szék",
       "price": "25000",
       "img": "no-image.png"
+    },
+    {
+      "id": "b296",
+      "name": "Teszt termék",
+      "price": "12000",
+      "img": "https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    },
+    {
+      "id": "abab",
+      "name": "Második teszt termék",
+      "price": "2000",
+      "img": ""
+    },
+    {
+      "id": "c416",
+      "name": "Harmadik teszt termék",
+      "price": "2500",
+      "img": ""
     }
   ],
   "order": [
@@ -50,23 +68,24 @@
   ],
   "cart": [
     {
+      "id": "5473",
       "productId": {
         "id": "2",
         "name": "gumiabroncs",
         "price": "45000",
         "img": "no-image.png"
       },
-      "id": 1,
-      "quantity": 2
+      "quantity": 1
     },
     {
+      "id": "8de9",
       "productId": {
-        "id": "1",
-        "name": "elektromos kapu",
-        "price": "500000",
-        "img": "no-image.png"
+        "id": "abab",
+        "name": "Második teszt termék",
+        "price": 2000,
+        "img": ""
       },
-      "id": 2
+      "quantity": 3
     }
   ]
 }

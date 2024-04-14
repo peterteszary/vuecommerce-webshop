@@ -1,14 +1,17 @@
 <template>
   <div class="container">
+    <div class="heading-section">
     <h1 class="text-center">Bolt</h1>
+    </div>
     <div class="row">
       <div v-for="product in products" :key="product.id" class="col-lg-3 col-md-6 col-sm-6 mb-4">
         <div class="card h-100">
-          <img class="card-img-top" :src="product.img || '@/assets/images/no-image.png'" alt="Nem jelenik meg a kép">
+          <img class="card-img-top" src="@/assets/images/no-image.png" alt="Nem jelenik meg a kép">
+
           <div class="card-body">
             <h5 class="card-title">{{ product.name }}</h5>
-            <p class="card-text">Price: {{ product.price }}</p>
-            <button @click="showDetails(product)" class="btn btn-primary mr-2">Részletek</button>
+            <p class="card-text">Price: {{ product.price }} Ft.</p>
+            <button @click="showDetails(product)" class="btn btn-margin-right btn-primary mr-2">Részletek</button>
             <button @click="addToCart(product)" class="btn btn-success">Kosárba</button>
           </div>
         </div>

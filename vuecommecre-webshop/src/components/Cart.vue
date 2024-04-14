@@ -1,14 +1,16 @@
 <template>
   <div class="container">
+    <div class="heading-section">
     <h1 class="text-center">Kosár</h1>
+    </div>
     <div v-if="cart.length === 0" class="text-center">
       <p>A kosarad üres.</p>
     </div>
     <div v-else>
       <div v-for="item in cart" :key="item.id" class="card mb-3">
         <div class="card-body">
-          <h5 class="card-title">{{ item.name }}</h5>
-          <p class="card-text">Ár: {{ formatPrice(item.price) }} Ft</p> 
+          <h5 class="card-title">{{ item.productId.name }}</h5>
+          <p class="card-text">Ár: {{ formatPrice(item.productId.price) }}</p> 
           <div class="input-group mb-3">
             <button @click="decreaseQuantity(item)" class="btn btn-outline-secondary" type="button">-</button>
             <input type="text" class="form-control" :value="item.quantity" readonly>
@@ -18,8 +20,9 @@
         </div>
       </div>
       <div class="text-center">
-        <p><strong>Összesen: {{ calculateTotalPrice() }} Ft</strong></p> 
+        <p><strong>Összesen: {{ formatPrice(calculateTotalPrice()) }}</strong></p> 
         <button @click="placeOrder" class="btn btn-success btn-block">Rendelés</button>
+        <p v-if="successMessage" class="text-success">{{ successMessage }}</p>
       </div>
     </div>
   </div>
@@ -32,7 +35,8 @@ export default {
   name: 'Cart',
   data() {
     return {
-      cart: []
+      cart: [],
+      successMessage: ''
     };
   },
   mounted() {
@@ -42,7 +46,13 @@ export default {
     fetchCart() {
       axios.get('http://localhost:3000/cart')
         .then(response => {
-          this.cart = response.data;
+          this.cart = response.data.map(item => ({
+            ...item,
+            productId: {
+              ...item.productId,
+              price: parseFloat(item.productId.price)
+            }
+          }));
         })
         .catch(error => {
           console.error('Error fetching cart:', error);
@@ -77,17 +87,19 @@ export default {
         });
     },
     placeOrder() {
+      this.successMessage = 'Rendelésedet sikeresen elküldted.';
       console.log('Order placed!');
     },
     calculateTotalPrice() {
       let totalPrice = 0;
       this.cart.forEach(item => {
-        totalPrice += item.price * item.quantity;
+        totalPrice += parseFloat(item.productId.price) * item.quantity;
       });
       return totalPrice;
     },
+
     formatPrice(price) {
-      return new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF' }).format(price);
+      return new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0 }).format(price);
     }
   }
 };
